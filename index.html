@@ -8,8 +8,10 @@
 <meta http-equiv="refresh" content="0; url=https://livui.mominvest.co.il/">
 <script>
 (function(){
-  var q=location.search||'', h=location.hash||'';
-  location.replace('https://livui.mominvest.co.il/'+q+h);
+  var q=location.search||'', h=location.hash||'', path=location.pathname||'/';
+  // דפי 500k הישנים (/500k, /500kdiy) ממשיכים לדף 500k; כל השאר לליווי
+  var target = /^\/500k/i.test(path) ? 'https://500k.mominvest.co.il/' : 'https://livui.mominvest.co.il/';
+  location.replace(target+q+h);
 })();
 </script>
 <style>body{font-family:Heebo,Arial,sans-serif;background:#FBFAF7;color:#1B2A41;text-align:center;padding:60px 16px}</style>

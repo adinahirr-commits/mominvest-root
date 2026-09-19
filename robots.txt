@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mominvest.co.il/sitemap.xml

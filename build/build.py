@@ -161,6 +161,9 @@ ADI = {"@type":"Person","@id":SITE+"/#adi","name":"עדי סומך","alternateNa
                  "https://podcasts.apple.com/il/podcast/id1809721347","https://www.linkedin.com/in/adi-somech-6471a318a/"]}
 WEBSITE = {"@type":"WebSite","@id":SITE+"/#site","url":SITE+"/","name":"אמא משקיעה","inLanguage":"he","publisher":{"@id":SITE+"/#org"}}
 
+def heb_date(iso):
+    y,m,d = iso.split("-"); return "%d.%d.%s" % (int(d), int(m), y)
+
 def ld(graph): return json.dumps({"@context":"https://schema.org","@graph":graph}, ensure_ascii=False)
 
 def page(title, desc, url, body, pagekey, ldgraph, ogtype="website"):
@@ -216,8 +219,8 @@ def build():
 %s
 %s
 <div class="related"><h2>עוד שאלות שאמהות שואלות</h2><div class="posts">%s</div></div>
-</div></article>""" % (html.escape(meta["question"]), html.escape(meta["title"]), html.escape(meta["description"]),
-                       meta.get("updated", TODAY), body, cta(), author, rel)
+</div></article>""" % (html.escape(meta["question"]), html.escape(meta["title"]), html.escape(meta.get("lead") or meta["description"]),
+                       heb_date(meta.get("updated", TODAY)), body, cta(), author, rel)
         graph = [ORG, ADI, WEBSITE,
                  {"@type":"Article","@id":url+"#article","headline":meta["title"],"description":meta["description"],
                   "inLanguage":"he","datePublished":meta.get("date",TODAY),"dateModified":meta.get("updated",TODAY),

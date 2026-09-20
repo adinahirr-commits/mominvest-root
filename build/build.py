@@ -80,7 +80,9 @@ fbq('init','1820166155346211');fbq('track','PageView');
   <div class="bar">
     <a href="/" aria-label="אמא משקיעה, דף הבית"><img src="/assets/logo.png" alt="אמא משקיעה"></a>
     <nav aria-label="ניווט ראשי">
-      <a href="/">עדי סומך</a>
+      <a href="/#story">הסיפור שלי</a>
+      <a href="/#method">השיטה</a>
+      <a href="/#testimonials">מהשטח</a>
       <a href="/blog/">מאמרים</a>
       <a class="cta" href="{livui}?utm_source=site&utm_medium=nav">הליווי »</a>
     </nav>
@@ -92,7 +94,15 @@ fbq('init','1820166155346211');fbq('track','PageView');
 FOOT = """
 </main>
 <footer>
-  <div class="wrap">
+  <div class="wrap wide">
+    <div class="fgrid">
+      <div>
+        <img src="/assets/logo.png" alt="אמא משקיעה" style="height:40px;width:auto;margin-bottom:10px">
+        <p style="margin:0;max-width:40ch">עדי סומך, מייסדת אמא משקיעה. מלווה אמהות לבנות רשת ביטחון למשפחה מהכסף שכבר יש להן.</p>
+      </div>
+      <div><h4>ניווט</h4><ul><li><a href="/#story">הסיפור שלי</a></li><li><a href="/#method">השיטה</a></li><li><a href="/#testimonials">מהשטח</a></li><li><a href="/blog/">מאמרים</a></li><li><a href="{livui}?utm_source=site&utm_medium=footer">תכנית הליווי</a></li></ul></div>
+      <div><h4>עוד</h4><ul><li><a href="https://academy.mominvest.co.il/calculator" target="_blank" rel="noopener">מחשבון ריבית דריבית</a></li><li><a href="https://podcasts.apple.com/il/podcast/id1809721347" target="_blank" rel="noopener">הפודקאסט</a></li><li><a href="https://www.instagram.com/adi_somech_" target="_blank" rel="noopener">אינסטגרם</a></li><li><a href="https://www.tiktok.com/@adi_somech_" target="_blank" rel="noopener">טיקטוק</a></li><li><a href="mailto:mominvest10x@gmail.com">צרי קשר</a></li></ul></div>
+    </div>
     <div><strong style="color:var(--ink)">אמא משקיעה · עדי סומך</strong> · עוסק מורשה 204151658 · <a href="mailto:mominvest10x@gmail.com">mominvest10x@gmail.com</a></div>
     <div class="social">
       <a href="https://www.instagram.com/adi_somech_" rel="me noopener" target="_blank">אינסטגרם</a>
@@ -170,7 +180,7 @@ def page(title, desc, url, body, pagekey, ldgraph, ogtype="website"):
     h = HEAD.format(title=html.escape(title), desc=html.escape(desc), url=url, site=SITE, ld=ld(ldgraph),
                     page=pagekey, livui=LIVUI, ogtype=ogtype)
     h = h.replace("<body>", '<body data-page="%s">' % pagekey)
-    return h + body + FOOT
+    return h + body + FOOT.replace("{livui}", LIVUI)
 
 def faq_ld(body):
     """שאלות ותשובות מתוך <details> בגוף המאמר → FAQPage."""

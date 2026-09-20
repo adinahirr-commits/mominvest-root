@@ -9,7 +9,7 @@
 (function(){
   var q=location.search||'', h=location.hash||'', path=location.pathname||'/';
   // דפי 500k הישנים (/500k, /500kdiy) ממשיכים לדף 500k; שאר הכתובות הישנות לדף הבית
-  var target = /^\/500k/i.test(path) ? 'https://500k.mominvest.co.il/'+q+h : '/';
+  var target = /^\/500k/i.test(path) ? 'https://500k.mominvest.co.il/'+q+h : /privacy/i.test(path) ? '/privacy.html' : /terms|takanon/i.test(path) ? '/terms.html' : '/';
   location.replace(target);
 })();
 </script>

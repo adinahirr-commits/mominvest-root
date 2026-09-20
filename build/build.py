@@ -80,7 +80,7 @@ fbq('init','1820166155346211');fbq('track','PageView');
   <div class="bar">
     <a href="/" aria-label="אמא משקיעה, דף הבית"><img src="/assets/logo.png" alt="אמא משקיעה"></a>
     <nav aria-label="ניווט ראשי">
-      <a href="/#story">הסיפור שלי</a>
+      <a href="/adi-somech/">עדי סומך</a>
       <a href="/#method">השיטה</a>
       <a href="/#testimonials">מהשטח</a>
       <a href="/blog/">מאמרים</a>
@@ -100,7 +100,7 @@ FOOT = """
         <img src="/assets/logo.png" alt="אמא משקיעה" style="height:40px;width:auto;margin-bottom:10px">
         <p style="margin:0;max-width:40ch">עדי סומך, מייסדת אמא משקיעה. מלווה אמהות לבנות רשת ביטחון למשפחה מהכסף שכבר יש להן.</p>
       </div>
-      <div><h4>ניווט</h4><ul><li><a href="/#story">הסיפור שלי</a></li><li><a href="/#method">השיטה</a></li><li><a href="/#testimonials">מהשטח</a></li><li><a href="/blog/">מאמרים</a></li><li><a href="{livui}?utm_source=site&utm_medium=footer">תכנית הליווי</a></li></ul></div>
+      <div><h4>ניווט</h4><ul><li><a href="/adi-somech/">עדי סומך</a></li><li><a href="/#story">הסיפור שלי</a></li><li><a href="/#method">השיטה</a></li><li><a href="/#testimonials">מהשטח</a></li><li><a href="/blog/">מאמרים</a></li><li><a href="{livui}?utm_source=site&utm_medium=footer">תכנית הליווי</a></li></ul></div>
       <div><h4>עוד</h4><ul><li><a href="https://academy.mominvest.co.il/calculator" target="_blank" rel="noopener">מחשבון ריבית דריבית</a></li><li><a href="https://podcasts.apple.com/il/podcast/id1809721347" target="_blank" rel="noopener">הפודקאסט</a></li><li><a href="https://www.instagram.com/adi_somech_" target="_blank" rel="noopener">אינסטגרם</a></li><li><a href="https://www.tiktok.com/@adi_somech_" target="_blank" rel="noopener">טיקטוק</a></li><li><a href="mailto:mominvest10x@gmail.com">צרי קשר</a></li></ul></div>
     </div>
     <div><strong style="color:var(--ink)">אמא משקיעה · עדי סומך</strong> · עוסק מורשה 204151658 · <a href="mailto:mominvest10x@gmail.com">mominvest10x@gmail.com</a></div>
@@ -157,18 +157,21 @@ FOOT = """
 """
 
 ORG = {"@type":"Organization","@id":SITE+"/#org","name":"אמא משקיעה",
-       "alternateName":["Mama Investor","MomInvest","עדי סומך אמא משקיעה"],
+       "alternateName":["Mama Investor","MomInvest","Mom Invest","עדי סומך אמא משקיעה","אמא משקיעה עדי סומך","משקיעה בעצמי","Adi Somech Mama Investor"],
        "url":SITE+"/","logo":SITE+"/assets/logo.png","email":"mominvest10x@gmail.com",
        "founder":{"@id":SITE+"/#adi"},
        "sameAs":["https://www.instagram.com/adi_somech_","https://www.tiktok.com/@adi_somech_",
                  "https://www.facebook.com/profile.php?id=61579848634547","https://podcasts.apple.com/il/podcast/id1809721347",
                  "https://www.linkedin.com/in/adi-somech-6471a318a/",LIVUI]}
-ADI = {"@type":"Person","@id":SITE+"/#adi","name":"עדי סומך","alternateName":"Adi Somech",
-       "jobTitle":"מייסדת אמא משקיעה","image":SITE+"/assets/adi.webp","url":SITE+"/",
+ADI = {"@type":"Person","@id":SITE+"/#adi","name":"עדי סומך","alternateName":["Adi Somech","עדי סומך אמא משקיעה","עדי סומך משקיעה בעצמי","עדי סומך מאפרת","Adi Somech Nahir","עדי סומך נהיר"],
+       "jobTitle":"מייסדת אמא משקיעה","knowsAbout":["השקעות לאמהות","חיסכון לכל ילד","תקציב משפחתי","קופת גמל להשקעה","קרן השתלמות","כספים אבודים","פנסיה"],
+       "homeLocation":{"@type":"Country","name":"Israel"},"nationality":"IL",
+       "mainEntityOfPage":SITE+"/adi-somech/","image":SITE+"/assets/adi.webp","url":SITE+"/",
        "description":"עדי סומך, מייסדת אמא משקיעה, מלווה אמהות לבנות הון משפחתי מכמה מאות שקלים בחודש.",
        "worksFor":{"@id":SITE+"/#org"},
        "sameAs":["https://www.instagram.com/adi_somech_","https://www.tiktok.com/@adi_somech_",
-                 "https://podcasts.apple.com/il/podcast/id1809721347","https://www.linkedin.com/in/adi-somech-6471a318a/"]}
+                 "https://podcasts.apple.com/il/podcast/id1809721347","https://www.linkedin.com/in/adi-somech-6471a318a/",
+                 "https://www.facebook.com/profile.php?id=61579848634547","https://www.facebook.com/AdiSomechnahir","https://www.instagram.com/glam_team_il"]}
 WEBSITE = {"@type":"WebSite","@id":SITE+"/#site","url":SITE+"/","name":"אמא משקיעה","inLanguage":"he","publisher":{"@id":SITE+"/#org"}}
 
 def heb_date(iso):
@@ -271,8 +274,17 @@ def build():
                SITE+"/", home, "home", [ORG, ADI, WEBSITE,
                {"@type":"WebPage","@id":SITE+"/#page","url":SITE+"/","name":"עדי סומך | אמא משקיעה","isPartOf":{"@id":SITE+"/#site"},"about":{"@id":SITE+"/#adi"},"inLanguage":"he"}]))
 
+    # עמוד "עדי סומך" (שם + כל הווריאציות)
+    adi = read(os.path.join(ROOT,"build","adi.html")).replace("{{LIVUI}}", LIVUI)
+    write(os.path.join(ROOT,"adi-somech","index.html"),
+          page("עדי סומך | Adi Somech · מייסדת אמא משקיעה",
+               "עדי סומך (Adi Somech): מייסדת אמא משקיעה ו\"משקיעה בעצמי\", לשעבר מאפרת ומעצבת שיער לכלות. מי היא, מה השיטה, הפודקאסט, הרשתות ותכנית הליווי לאמהות.",
+               SITE+"/adi-somech/", adi, "adi-page", [ORG, ADI, WEBSITE,
+               {"@type":"ProfilePage","@id":SITE+"/adi-somech/#page","url":SITE+"/adi-somech/","name":"עדי סומך","mainEntity":{"@id":SITE+"/#adi"},"isPartOf":{"@id":SITE+"/#site"},"inLanguage":"he"},
+               faq_ld(adi) or {"@type":"Thing","name":"עדי סומך"}], "profile"))
+
     # sitemap + robots
-    urls = [(SITE+"/", TODAY, "1.0"), (SITE+"/blog/", TODAY, "0.8")] + \
+    urls = [(SITE+"/", TODAY, "1.0"), (SITE+"/adi-somech/", TODAY, "0.9"), (SITE+"/blog/", TODAY, "0.8")] + \
            [("%s/blog/%s/" % (SITE, m["slug"]), m.get("updated",TODAY), "0.8") for m,_ in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n" % u for u in urls) + "</urlset>\n"

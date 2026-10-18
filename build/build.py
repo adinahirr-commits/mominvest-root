@@ -15,6 +15,59 @@ SITE = "https://mominvest.co.il"
 LIVUI = "https://livui.mominvest.co.il/"
 TODAY = datetime.date.today().isoformat()
 
+# המדריכים החינמיים והמוצרים (כותרות = הכותרות של הדפים עצמם)
+GUIDES = {
+    "guide1": {"url": "https://adinahirr-commits.github.io/mominvest-guides/guide1/",
+               "title": "איך למצוא בין 300 ל-700 ש\"ח כל חודש להשקעה",
+               "text": "המדריך החינמי לכספים האבודים: 7 תחנות, תסריט מוכן לכל שיחה, ובסוף את יודעת בדיוק כמה כסף מצאת.",
+               "btn": "לקבל את המדריך בחינם »"},
+    "guide2": {"url": "https://adinahirr-commits.github.io/mominvest-guides/guide2/",
+               "title": "איך לסדר לילד שלך 50-70 אלף ש\"ח מתנה מהמדינה",
+               "text": "המדריך החינמי לחיסכון לכל ילד: מה לבדוק, איזה מסלול לבחור ואיך מוציאים מהחיסכון את המקסימום.",
+               "btn": "לקבל את המדריך בחינם »"},
+}
+COURSE500K = "https://500k.mominvest.co.il/"
+# לכל מאמר: איזה מדריך מופיע באמצעו, והאם מופיע גם הקורס (מנגנון החצי מיליון)
+ARTICLE_GUIDE = {
+    "kesef-avud": "guide1", "kesef-baovesh": "guide1", "marvichim-yafe-lo-nishar": "guide1",
+    "hachnasa-nosefet": "guide1", "keren-kaspit": "guide1", "pensia-gil-40": "guide1",
+    "hisachon-lekol-yeled": "guide2", "lachsoch-leyeladim": "guide2", "snp-500": "guide2",
+    "kupat-gemel-keren-hishtalmut-polisa": "guide2",
+}
+ARTICLE_500K = {"hisachon-lekol-yeled", "lachsoch-leyeladim", "snp-500"}
+
+def utm(url, medium, campaign):
+    return "%s?utm_source=site&utm_medium=%s&utm_campaign=%s" % (url, medium, campaign)
+
+def guide_box(key, campaign):
+    g = GUIDES[key]
+    return """
+<div class="box guide-box">
+  <span class="eyebrow">מדריך חינמי</span>
+  <h3>%s</h3>
+  <p>%s</p>
+  <a class="btn" href="%s">%s</a>
+</div>
+""" % (html.escape(g["title"]), html.escape(g["text"]), utm(g["url"], "article-guide", campaign), g["btn"])
+
+def course_box(campaign):
+    return """
+<div class="box guide-box">
+  <span class="eyebrow">מנגנון החצי מיליון</span>
+  <h3>ההדרכה המלאה: איך לתת חצי מיליון לכל ילד</h3>
+  <p>מנגנון החצי מיליון של עדי סומך: בני עתיד כלכלי לילדים שלך.</p>
+  <a class="btn" href="%s">לפרטים על ההדרכה »</a>
+</div>
+""" % utm(COURSE500K, "article-500k", campaign)
+
+def insert_mid(body, block):
+    # לפני ה-h2 השלישי (אמצע המאמר); אם אין, לפני האחרון
+    idx = [m.start() for m in re.finditer(r"<h2", body)]
+    if len(idx) >= 3: at = idx[2]
+    elif idx: at = idx[-1]
+    else: return body + block
+    return body[:at] + block + body[at:]
+
 def read(p):
     with open(p, encoding="utf-8") as f: return f.read()
 
@@ -81,9 +134,10 @@ fbq('init','1820166155346211');fbq('track','PageView');
     <a href="/" aria-label="אמא משקיעה, דף הבית"><img src="/assets/logo.png" alt="אמא משקיעה"></a>
     <nav aria-label="ניווט ראשי">
       <a href="/adi-somech/">עדי סומך</a>
-      <a href="/#method">השיטה</a>
-      <a href="/#testimonials">מהשטח</a>
+      <a class="hide-m" href="/#method">השיטה</a>
+      <a class="hide-m" href="/#testimonials">מהשטח</a>
       <a href="/blog/">מאמרים</a>
+      <a href="/madrichim/">מדריכים חינמיים</a>
       <a class="cta" href="{livui}?utm_source=site&utm_medium=nav">הליווי »</a>
     </nav>
   </div>
@@ -100,8 +154,8 @@ FOOT = """
         <img src="/assets/logo.png" alt="אמא משקיעה" style="height:40px;width:auto;margin-bottom:10px">
         <p style="margin:0;max-width:40ch">עדי סומך, מייסדת אמא משקיעה. מלווה אמהות לבנות רשת ביטחון למשפחה מהכסף שכבר יש להן.</p>
       </div>
-      <div><h4>ניווט</h4><ul><li><a href="/adi-somech/">עדי סומך</a></li><li><a href="/#story">הסיפור שלי</a></li><li><a href="/#method">השיטה</a></li><li><a href="/#testimonials">מהשטח</a></li><li><a href="/blog/">מאמרים</a></li><li><a href="{livui}?utm_source=site&utm_medium=footer">תכנית הליווי</a></li></ul></div>
-      <div><h4>עוד</h4><ul><li><a href="https://academy.mominvest.co.il/calculator" target="_blank" rel="noopener">מחשבון ריבית דריבית</a></li><li><a href="https://podcasts.apple.com/il/podcast/id1809721347" target="_blank" rel="noopener">הפודקאסט</a></li><li><a href="https://www.instagram.com/adi_somech_" target="_blank" rel="noopener">אינסטגרם</a></li><li><a href="https://www.tiktok.com/@adi_somech_" target="_blank" rel="noopener">טיקטוק</a></li><li><a href="mailto:mominvest10x@gmail.com">צרי קשר</a></li></ul></div>
+      <div><h4>ניווט</h4><ul><li><a href="/adi-somech/">עדי סומך</a></li><li><a href="/#story">הסיפור שלי</a></li><li><a href="/#method">השיטה</a></li><li><a href="/#testimonials">מהשטח</a></li><li><a href="/blog/">מאמרים</a></li><li><a href="/madrichim/">מדריכים חינמיים</a></li><li><a href="{livui}?utm_source=site&utm_medium=footer">תכנית הליווי</a></li></ul></div>
+      <div><h4>עוד</h4><ul><li><a href="https://academy.mominvest.co.il/calculator" target="_blank" rel="noopener">מחשבון ריבית דריבית</a></li><li><a href="https://500k.mominvest.co.il/?utm_source=site&utm_medium=footer" target="_blank" rel="noopener">מנגנון החצי מיליון</a></li><li><a href="https://podcasts.apple.com/il/podcast/id1809721347" target="_blank" rel="noopener">הפודקאסט</a></li><li><a href="https://www.instagram.com/adi_somech_" target="_blank" rel="noopener">אינסטגרם</a></li><li><a href="https://www.tiktok.com/@adi_somech_" target="_blank" rel="noopener">טיקטוק</a></li><li><a href="mailto:mominvest10x@gmail.com">צרי קשר</a></li></ul></div>
     </div>
     <div><strong style="color:var(--ink)">אמא משקיעה · עדי סומך</strong> · עוסק מורשה 204151658 · <a href="mailto:mominvest10x@gmail.com">mominvest10x@gmail.com</a></div>
     <div class="social">
@@ -218,6 +272,10 @@ def build():
     for i,(meta, body) in enumerate(posts):
         url = "%s/blog/%s/" % (SITE, meta["slug"])
         others = [p for j,p in enumerate(posts) if j != i][:3]
+        slug = meta["slug"]
+        if slug in ARTICLE_GUIDE:
+            body = insert_mid(body, guide_box(ARTICLE_GUIDE[slug], slug))
+        extra = course_box(slug) if slug in ARTICLE_500K else ""
         rel = "".join('<a class="post" href="/blog/%s/"><span class="q">%s</span><h3>%s</h3><span class="more">לקריאה »</span></a>' %
                       (m["slug"], html.escape(m["question"]), html.escape(m["title"])) for m,_ in others)
         page_body = """
@@ -231,9 +289,10 @@ def build():
 %s
 %s
 %s
+%s
 <div class="related"><h2>עוד שאלות שאמהות שואלות</h2><div class="posts">%s</div></div>
 </div></article>""" % (html.escape(meta["question"]), html.escape(meta["title"]), html.escape(meta.get("lead") or meta["description"]),
-                       heb_date(meta.get("updated", TODAY)), body, cta(), author, rel)
+                       heb_date(meta.get("updated", TODAY)), body, extra, cta(), author, rel)
         graph = [ORG, ADI, WEBSITE,
                  {"@type":"Article","@id":url+"#article","headline":meta["title"],"description":meta["description"],
                   "inLanguage":"he","datePublished":meta.get("date",TODAY),"dateModified":meta.get("updated",TODAY),
@@ -283,8 +342,32 @@ def build():
                {"@type":"ProfilePage","@id":SITE+"/adi-somech/#page","url":SITE+"/adi-somech/","name":"עדי סומך","mainEntity":{"@id":SITE+"/#adi"},"isPartOf":{"@id":SITE+"/#site"},"inLanguage":"he"},
                faq_ld(adi) or {"@type":"Thing","name":"עדי סומך"}], "profile"))
 
+    # עמוד המדריכים החינמיים
+    gcards = "".join('<div class="box guide-box"><span class="eyebrow">מדריך חינמי</span><h2>%s</h2><p>%s</p><a class="btn" href="%s">%s</a></div>' %
+                     (html.escape(g["title"]), html.escape(g["text"]), utm(g["url"], "guides-page", k), g["btn"]) for k,g in GUIDES.items())
+    gpage = """
+<div class="article-head"><div class="wrap">
+  <span class="eyebrow">מדריכים חינמיים</span>
+  <h1>המדריכים החינמיים של אמא משקיעה</h1>
+  <p class="lead">כלים מעשיים שאפשר להתחיל איתם כבר היום: למצוא כסף שמחכה לך, ולבנות לילדים עתיד כלכלי. בחינם, ישר למייל.</p>
+</div></div>
+<article class="article"><div class="wrap">
+%s
+<div class="box guide-box"><span class="eyebrow">כלי חינמי</span><h2>מחשבון ריבית דריבית</h2><p>כמה יהיה שווה הסכום שלך בעוד 10, 20 ו-30 שנה? מכניסות סכום ורואות את התמונה.</p><a class="btn" href="https://academy.mominvest.co.il/calculator?utm_source=site&utm_medium=guides-page">למחשבון »</a></div>
+%s
+%s
+<div class="related"><h2>מאמרים שכדאי לקרוא</h2><div class="posts">%s</div></div>
+</div></article>""" % (gcards, course_box("guides-page"), cta(), "".join(
+        '<a class="post" href="/blog/%s/"><span class="q">%s</span><h3>%s</h3><span class="more">לקריאה »</span></a>' %
+        (m["slug"], html.escape(m["question"]), html.escape(m["title"])) for m,_ in posts[:6]))
+    write(os.path.join(ROOT,"madrichim","index.html"),
+          page("מדריכים חינמיים לאמהות על כסף | אמא משקיעה",
+               "המדריכים החינמיים של עדי סומך, אמא משקיעה: איך למצוא 300-700 ש\"ח כל חודש, איך לסדר לילד 50-70 אלף ש\"ח מחיסכון לכל ילד, ומחשבון ריבית דריבית.",
+               SITE+"/madrichim/", gpage, "guides", [ORG, ADI, WEBSITE,
+               {"@type":"CollectionPage","@id":SITE+"/madrichim/#page","url":SITE+"/madrichim/","name":"מדריכים חינמיים","isPartOf":{"@id":SITE+"/#site"},"inLanguage":"he"}]))
+
     # sitemap + robots
-    urls = [(SITE+"/", TODAY, "1.0"), (SITE+"/adi-somech/", TODAY, "0.9"), (SITE+"/blog/", TODAY, "0.8")] + \
+    urls = [(SITE+"/", TODAY, "1.0"), (SITE+"/adi-somech/", TODAY, "0.9"), (SITE+"/blog/", TODAY, "0.8"), (SITE+"/madrichim/", TODAY, "0.8")] + \
            [("%s/blog/%s/" % (SITE, m["slug"]), m.get("updated",TODAY), "0.8") for m,_ in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n" % u for u in urls) + "</urlset>\n"

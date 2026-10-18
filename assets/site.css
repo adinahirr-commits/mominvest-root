@@ -276,3 +276,7 @@ footer .fgrid ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 footer .fgrid a{color:var(--ink);font-weight:700;text-decoration:none}
 footer .fgrid a:hover{text-decoration:underline}
 @media(max-width:700px){footer .fgrid{grid-template-columns:1fr}}
+.guide-box{border:2px solid var(--pink);text-align:center}
+.guide-box h2,.guide-box h3{margin:6px 0 8px}
+.guide-box p{max-width:46ch;margin:0 auto 16px}
+@media(max-width:560px){header.site nav a.hide-m{display:none}}
